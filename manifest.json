@@ -1,0 +1,15 @@
+{
+    "display_name": "Living World",
+    "loading_order": 15,
+    "requires": [],
+    "optional": [],
+    "dependencies": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "city-unit",
+    "version": "0.1.0",
+    "homePage": "https://github.com/city-unit/st-extension-example",
+    "auto_update": false,
+    "generate_interceptor": "livingWorldInterceptor",
+    "minimum_client_version": "1.12.0"
+}

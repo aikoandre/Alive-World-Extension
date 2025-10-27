@@ -1,0 +1,207 @@
+<!-- Living World Extension Settings Panel -->
+<div class="living-world-settings">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <b>Living World</b>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        <div class="inline-drawer-content">
+            
+            <!-- Enable/Disable Toggle -->
+            <div class="living-world_block flex-container">
+                <input id="living-world-enabled" type="checkbox" />
+                <label for="living-world-enabled">
+                    <b>Enable Living World</b>
+                </label>
+            </div>
+            
+            <small class="living-world-description">
+                Automatically generate character positions and activities based on chat history.
+            </small>
+            
+            <hr class="sysHR" />
+            
+            <!-- Lorebook Configuration -->
+            <div class="living-world_block">
+                <h4>Lorebook Configuration</h4>
+                
+                <label for="living-world-lorebook">
+                    <b>Select Lorebook</b>
+                    <small>Choose the lorebook containing your characters</small>
+                </label>
+                <select id="living-world-lorebook" class="text_pole">
+                    <option value="">Loading...</option>
+                </select>
+                
+                <label for="living-world-character-list-entry" style="margin-top: 10px;">
+                    <b>Character List Entry</b>
+                    <small>Select the entry containing the list of all character names</small>
+                </label>
+                <select id="living-world-character-list-entry" class="text_pole">
+                    <option value="">Select a lorebook first...</option>
+                </select>
+            </div>
+            
+            <hr class="sysHR" />
+            
+            <!-- Generation Configuration -->
+            <div class="living-world_block">
+                <h4>Generation Configuration</h4>
+                
+                <label for="living-world-connection-profile">
+                    <b>Connection Profile</b>
+                    <small>Select which AI profile to use for world generation</small>
+                </label>
+                <select id="living-world-connection-profile" class="text_pole">
+                    <option value="">Use Current API Settings</option>
+                </select>
+                
+                <label for="living-world-preset" style="margin-top: 10px;">
+                    <b>Preset</b>
+                    <small>Select which preset to use for generation</small>
+                </label>
+                <select id="living-world-preset" class="text_pole">
+                    <option value="current">Use Current Preset</option>
+                </select>
+                
+                <label for="living-world-character-quantity" style="margin-top: 10px;">
+                    <b>Character Quantity: <span id="living-world-character-quantity-value">20</span></b>
+                    <small>Maximum number of characters to track</small>
+                </label>
+                <input 
+                    id="living-world-character-quantity" 
+                    type="range" 
+                    min="1" 
+                    max="50" 
+                    value="20" 
+                    class="wide-slider"
+                />
+            </div>
+            
+            <hr class="sysHR" />
+            
+            <!-- Injection Strategy -->
+            <div class="living-world_block">
+                <h4>Injection Strategy</h4>
+                
+                <label for="living-world-injection-type">
+                    <b>Injection Type</b>
+                    <small>How to inject the world state into the prompt</small>
+                </label>
+                <select id="living-world-injection-type" class="text_pole">
+                    <option value="before">Before Main Prompt</option>
+                    <option value="after">After Main Prompt</option>
+                    <option value="depth" selected>In-chat @ Depth</option>
+                </select>
+                
+                <!-- Depth-specific options -->
+                <div id="living-world-depth-options" style="margin-top: 10px;">
+                    <label for="living-world-injection-depth">
+                        <b>Depth</b>
+                        <small>How many messages from the bottom to inject</small>
+                    </label>
+                    <input 
+                        id="living-world-injection-depth" 
+                        type="number" 
+                        min="0" 
+                        max="100" 
+                        value="1" 
+                        class="text_pole"
+                    />
+                    
+                    <label for="living-world-injection-role" style="margin-top: 10px;">
+                        <b>Role</b>
+                        <small>Message role for injection</small>
+                    </label>
+                    <select id="living-world-injection-role" class="text_pole">
+                        <option value="system" selected>System</option>
+                        <option value="user">User</option>
+                        <option value="assistant">Assistant</option>
+                    </select>
+                </div>
+            </div>
+            
+            <hr class="sysHR" />
+            
+            <!-- Advanced Options -->
+            <div class="living-world_block">
+                <h4>Advanced Options</h4>
+                
+                <div class="flex-container" style="margin-bottom: 5px;">
+                    <input id="living-world-auto-trigger" type="checkbox" checked />
+                    <label for="living-world-auto-trigger">
+                        Auto-generate on each message
+                    </label>
+                </div>
+                
+                <div class="flex-container">
+                    <input id="living-world-debug-mode" type="checkbox" />
+                    <label for="living-world-debug-mode">
+                        Enable debug logging
+                    </label>
+                </div>
+            </div>
+            
+            <hr class="sysHR" />
+            
+            <!-- Manual Generation Button -->
+            <div class="living-world_block flex-container justifyCenter">
+                <input 
+                    id="living-world-generate-manual" 
+                    class="menu_button" 
+                    type="submit" 
+                    value="Generate World State Now" 
+                />
+            </div>
+            
+            <!-- Status Display -->
+            <div id="living-world-status" class="living-world_block" style="margin-top: 10px;">
+                <small id="living-world-status-text" style="color: #888;">
+                    Ready to generate
+                </small>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<style>
+    .living-world-settings .living-world_block {
+        margin-bottom: 15px;
+    }
+    
+    .living-world-settings h4 {
+        margin-bottom: 10px;
+        color: var(--SmartThemeBodyColor);
+    }
+    
+    .living-world-settings small {
+        display: block;
+        margin-top: 3px;
+        color: var(--SmartThemeQuoteColor);
+        font-style: italic;
+    }
+    
+    .living-world-settings .living-world-description {
+        margin-bottom: 15px;
+    }
+    
+    .living-world-settings label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .living-world-settings .wide-slider {
+        width: 100%;
+    }
+    
+    #living-world-depth-options {
+        padding-left: 15px;
+        border-left: 2px solid var(--SmartThemeBorderColor);
+    }
+    
+    #living-world-status-text {
+        text-align: center;
+        display: block;
+    }
+</style>
