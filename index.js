@@ -10,7 +10,8 @@ import { loadWorldInfo } from "../../../world-info.js";
 
 // Extension configuration
 const MODULE_NAME = "living-world";
-const extensionFolderPath = `scripts/extensions/third-party/${MODULE_NAME}`;
+// This will be "Alive-World-Extension" when installed from GitHub
+const extensionFolderPath = `scripts/extensions/third-party/Alive-World-Extension`;
 
 // Default settings
 const defaultSettings = {
@@ -76,8 +77,14 @@ function debugLog(...args) {
  * Load the settings UI
  */
 async function loadSettingsUI() {
-    const settingsHtml = await $.get(`${extensionFolderPath}/settings-panel.html`);
-    $("#extensions_settings2").append(settingsHtml);
+    try {
+        const settingsHtml = await $.get(`${extensionFolderPath}/settings-panel.html`);
+        $("#extensions_settings2").append(settingsHtml);
+        console.log('[Living World] Settings UI loaded successfully');
+    } catch (error) {
+        console.error('[Living World] Failed to load settings UI:', error);
+        toastr.error('Failed to load Living World settings UI');
+    }
 }
 
 /**
@@ -403,18 +410,23 @@ globalThis.livingWorldInterceptor = async function(chat, contextSize, abort, typ
 jQuery(async () => {
     console.log('[Living World] Initializing extension...');
     
-    // Load settings UI
-    await loadSettingsUI();
-    
-    // Attach event handlers
-    attachEventHandlers();
-    
-    // Update UI with current settings
-    updateUI();
-    
-    // Load initial data
-    await loadLorebooks();
-    await loadConnectionProfiles();
-    
-    console.log('[Living World] Extension initialized');
+    try {
+        // Load settings UI
+        await loadSettingsUI();
+        
+        // Attach event handlers
+        attachEventHandlers();
+        
+        // Update UI with current settings
+        updateUI();
+        
+        // Load initial data
+        await loadLorebooks();
+        await loadConnectionProfiles();
+        
+        console.log('[Living World] Extension initialized successfully');
+    } catch (error) {
+        console.error('[Living World] Initialization error:', error);
+        toastr.error('Living World extension failed to initialize');
+    }
 });
